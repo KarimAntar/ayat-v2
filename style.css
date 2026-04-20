@@ -288,6 +288,12 @@ body {
   background: rgba(78, 222, 163, 0.05);
 }
 
+.ayah.playing {
+  color: var(--emerald);
+  text-shadow: 0 0 16px rgba(78, 222, 163, 0.5);
+  background: rgba(78, 222, 163, 0.1);
+}
+
 .arabic-text {
   font-family: var(--font-arabic);
   font-size: clamp(1.3rem, 3vw, 1.8rem);
@@ -815,20 +821,12 @@ body {
 
 /* ── Ayah number badge ── */
 .ayah-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='none' stroke='%23ffb95f' stroke-width='4' d='M50,8 A42,42 0 1,1 49.9,8 Z'/%3E%3Cpath fill='none' stroke='%23ffb95f' stroke-width='1.5' d='M50,2 A48,48 0 1,1 49.9,2 Z'/%3E%3Ccircle cx='50' cy='15' r='2.5' fill='%23ffb95f'/%3E%3Ccircle cx='85' cy='50' r='2.5' fill='%23ffb95f'/%3E%3Ccircle cx='50' cy='85' r='2.5' fill='%23ffb95f'/%3E%3Ccircle cx='15' cy='50' r='2.5' fill='%23ffb95f'/%3E%3Ccircle cx='25' cy='25' r='1.5' fill='%23ffb95f'/%3E%3Ccircle cx='75' cy='25' r='1.5' fill='%23ffb95f'/%3E%3Ccircle cx='75' cy='75' r='1.5' fill='%23ffb95f'/%3E%3Ccircle cx='25' cy='75' r='1.5' fill='%23ffb95f'/%3E%3C/svg%3E") no-repeat center;
-  background-size: contain;
   font-family: var(--font-arabic);
-  font-size: 0.95rem;
+  font-size: 1.1em;
   font-weight: 700;
   color: var(--gold);
-  margin: 0 6px;
-  padding-top: 2px;
-  direction: ltr; /* ensures 10 renders correctly, not reversed */
+  margin: 0 4px;
+  display: inline;
   pointer-events: none; /* Make clicking easier on the surrounding span */
 }
 

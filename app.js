@@ -202,6 +202,21 @@ const AudioPlayer = (() => {
     currentIndex = i;
     audio.src = queue[i];
     elVerseIndicator.textContent = `آية ${i + 1} / ${queue.length}`;
+    
+    // Highlight currently playing verse
+    document.querySelectorAll('.ayah.playing').forEach(el => el.classList.remove('playing'));
+    const activeSection = document.querySelector('.section.active');
+    if (activeSection) {
+      const activeAyah = activeSection.querySelector(`.ayah[data-idx="${i}"]`);
+      if (activeAyah) {
+        activeAyah.classList.add('playing');
+        // Optional: Ensure it flashes briefly to draw attention
+        activeAyah.style.animation = 'none';
+        activeAyah.offsetHeight; /* trigger reflow */
+        activeAyah.style.animation = null;
+      }
+    }
+
     setLoading(true);
     audio.play().catch(() => {
       isPlaying = false;
@@ -480,10 +495,17 @@ async function buildSection(sectionEl, sectionData) {
     const ayahs = await QuranAPI.fetchAyahs(group.surah, group.start, group.end);
     allAyahs.push(...ayahs);
 
-    // Build text with ayah markers
-    textEl.innerHTML = ayahs.map((a, i) =>
-      `<span class="ayah" data-idx="${startIdx + i}" title="انقر للاستماع للآية">${a.text} <span class="ayah-num">${toArabicNum(a.numberInSurah)}</span></span>`
-    ).join(' ');
+    // Build text with ayah markers using ornate parentheses ﴿ ﴾
+    textEl.innerHTML = ayahs.map((a, i) => {
+      let text = a.text;
+      // Remove Bismillah from the first verse except Surah Al-Fatihah
+      if (group.surah !== 1 && a.numberInSurah === 1) {
+        text = text.replace(/^بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ\s*/, '')
+                   .replace(/^بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\s*/, '')
+                   .trim();
+      }
+      return `<span class="ayah" data-idx="${startIdx + i}" title="انقر للاستماع للآية">${text} <span class="ayah-num">﴿${toArabicNum(a.numberInSurah)}﴾</span></span>`;
+    }).join(' ');
     textEl.classList.remove('loading');
   }
 
