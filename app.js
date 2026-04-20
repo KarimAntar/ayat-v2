@@ -578,6 +578,12 @@ async function initApp() {
   setTimeout(() => {
     overlay.classList.add('hidden');
     SectionManager.init();
+    
+    // Auto-play the first verse. 
+    // Browser might block this if the user hasn't interacted with the document yet.
+    setTimeout(() => {
+      AudioPlayer.togglePlay();
+    }, 300);
   }, 400);
 }
 
