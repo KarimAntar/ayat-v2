@@ -106,7 +106,7 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 40px 20px 40px calc(var(--nav-width) + 20px);
+  padding: 20px 20px 20px calc(var(--nav-width) + 20px);
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -169,7 +169,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border); /* ghost border — felt, not seen */
   border-radius: var(--radius-card);
-  padding: 32px 48px;
+  padding: 20px 32px;
   max-width: 860px;
   width: 100%;
   max-height: 100%;
@@ -207,14 +207,14 @@ body {
 /* ── Section Header ── */
 .section-header {
   text-align: center;
-  margin-bottom: 28px;
-  padding-bottom: 20px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
   /* No divider lines — extra whitespace instead (Stitch guideline) */
 }
 
 .section-icon {
-  font-size: 2.4rem;
-  margin-bottom: 14px;
+  font-size: 2.2rem;
+  margin-bottom: 6px;
   display: block;
   color: var(--gold);
   animation: pulse-icon 3s ease-in-out infinite;
@@ -246,7 +246,7 @@ body {
 
 .repeat-badge {
   display: inline-block;
-  margin-top: 12px;
+  margin-top: 6px;
   padding: 5px 16px;
   background: var(--gold-dim);
   border-radius: 9999px;
@@ -305,14 +305,23 @@ body {
 
 .arabic-text {
   font-family: var(--font-arabic);
-  font-size: clamp(1.3rem, 3vw, 1.8rem);
-  line-height: 2.2;
-  text-align: justify;
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  line-height: 1.85;
+  text-align: center; /* better balance for single verses */
   color: var(--text-primary);
   letter-spacing: 0.02em;
   word-spacing: 0.15em;
   animation: text-shimmer 3s ease-in-out infinite;
   position: relative;
+}
+
+.bismillah {
+  font-family: var(--font-arabic);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  text-align: center;
+  color: var(--gold);
+  margin-bottom: 16px;
+  opacity: 0.9;
 }
 
 .arabic-text.loading {
