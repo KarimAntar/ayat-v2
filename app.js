@@ -12,7 +12,7 @@
 const QuranAPI = (() => {
   const BASE = 'https://api.alquran.cloud/v1';
   const EDITION = 'ar.alafasy';
-  const AUDIO_CDN = 'https://cdn.islamic.network/quran/audio/128/ar.alafasy';
+  const AUDIO_CDN = 'https://everyayah.com/data/Alafasy_128kbps';
   const cache = new Map();
 
   async function fetchAyahs(surah, start, end) {
@@ -32,7 +32,7 @@ const QuranAPI = (() => {
           number: a.number,
           numberInSurah: a.numberInSurah,
           text: a.text,
-          audio: a.audio || `${AUDIO_CDN}/${a.number}.mp3`,
+          audio: a.audio || buildCdnUrl(surah, a.numberInSurah),
           surah: surah,
         }));
 
@@ -53,24 +53,18 @@ const QuranAPI = (() => {
         number: globalNum,
         numberInSurah: i,
         text: FALLBACK_TEXTS[`${surah}:${i}`] || '...',
-        audio: `${AUDIO_CDN}/${globalNum}.mp3`,
+        audio: buildCdnUrl(surah, i),
         surah,
       });
     }
     return ayahs;
   }
 
-  // Approximate global ayah numbers for key verses
-  const SURAH_STARTS = {
-    1: 1,
-    2: 8,
-    68: 5673,
-    113: 6272,
-    114: 6278,
-  };
-
-  function getGlobalAyahNumber(surah, ayahInSurah) {
-    return (SURAH_STARTS[surah] || 0) + ayahInSurah - 1;
+  // everyayah.com uses zero-padded format: SSSAAA (surah 3-digit, ayah 3-digit)
+  function buildCdnUrl(surah, ayah) {
+    const s = String(surah).padStart(3, '0');
+    const a = String(ayah).padStart(3, '0');
+    return `${AUDIO_CDN}/${s}${a}.mp3`;
   }
 
   return { fetchAyahs };
@@ -222,11 +216,16 @@ const AudioPlayer = (() => {
       isPlaying = false;
       updatePlayIcon();
     } else {
-      isPlaying = true;
-      audio.play().catch(() => {
-        isPlaying = false;
-        updatePlayIcon();
-      });
+      // If no src loaded yet (first play), load the track first
+      if (!audio.src || audio.src === window.location.href) {
+        playIndex(currentIndex);
+      } else {
+        isPlaying = true;
+        audio.play().catch(() => {
+          isPlaying = false;
+          updatePlayIcon();
+        });
+      }
     }
   }
 
@@ -240,6 +239,11 @@ const AudioPlayer = (() => {
     elProgressFill.style.width = '0%';
     elTimeElapsed.textContent = '0:00';
     elTimeTotal.textContent = '0:00';
+    // Pre-load src so play button works immediately on first click
+    if (queue.length > 0) {
+      audio.src = queue[0];
+      audio.load();
+    }
     updatePlayIcon();
     if (autoPlay && queue.length > 0) {
       playIndex(0);
@@ -431,11 +435,15 @@ const SectionManager = (() => {
     sectionAyahs[idx] = ayahs;
   }
 
+  function getAyahs(idx) {
+    return sectionAyahs[idx] || [];
+  }
+
   function init() {
     updateUI(0);
   }
 
-  return { goTo, next, prev, cacheAyahs, init, getCurrent: () => currentIndex };
+  return { goTo, next, prev, cacheAyahs, getAyahs, init, getCurrent: () => currentIndex };
 })();
 
 
@@ -524,12 +532,10 @@ async function initApp() {
 
   setLoaderProgress(100);
 
-  // Load first section audio
+  // Load first section audio from cache (already fetched in buildSection loop)
   const firstSection = SECTIONS[0];
-  const firstAyahs = await QuranAPI.fetchAyahs(113, 1, 6).catch(() => []);
-  const secondAyahs = await QuranAPI.fetchAyahs(114, 1, 6).catch(() => []);
-  SectionManager.cacheAyahs(0, [...firstAyahs, ...secondAyahs]);
-  AudioPlayer.loadSection([...firstAyahs, ...secondAyahs], firstSection.titleAr, false);
+  const cachedSection0 = SectionManager.getAyahs(0);
+  AudioPlayer.loadSection(cachedSection0, firstSection.titleAr, false);
 
   // Auto-advance audio to next section
   AudioPlayer.setOnEnd(() => {

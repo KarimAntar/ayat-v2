@@ -1,47 +1,55 @@
 /* =====================================================
    Ayat v2 — Design System
-   Islamic Ruqyah & Protection Verses
+   "Noor & Sakina" — Designed with Stitch MCP
    ===================================================== */
 
 /* ── Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&family=Manrope:wght@300;400;600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap');
 
-/* ── CSS Variables ── */
+/* ── CSS Variables — Noor & Sakina Design System (Stitch) ── */
 :root {
-  --bg-primary: #070d1a;
-  --bg-secondary: #0d1626;
-  --bg-card: rgba(255, 255, 255, 0.04);
-  --bg-card-hover: rgba(255, 255, 255, 0.07);
-  --border: rgba(255, 255, 255, 0.08);
-  --border-glow: rgba(16, 185, 129, 0.3);
+  /* Surfaces — tonal layering, no harsh lines */
+  --bg-primary:          #0d1320;   /* surface */
+  --bg-secondary:        #151b29;   /* surface-container-low */
+  --bg-card:             rgba(47, 53, 67, 0.55); /* surface-container-highest + glass */
+  --bg-card-hover:       rgba(51, 57, 72, 0.65);
+  --surface-container:   #191f2d;
+  --surface-bright:      #333948;
 
-  --emerald: #10b981;
-  --emerald-dim: #059669;
-  --emerald-glow: rgba(16, 185, 129, 0.15);
-  --gold: #f59e0b;
-  --gold-dim: #d97706;
-  --gold-glow: rgba(245, 158, 11, 0.15);
-  --indigo: #6366f1;
-  --purple: #8b5cf6;
-  --rose: #ec4899;
+  /* Ghost borders — felt, not seen */
+  --border:              rgba(60, 74, 66, 0.15);
+  --border-glow:         rgba(78, 222, 163, 0.25);
 
-  --text-primary: #f0e6d3;
-  --text-secondary: rgba(240, 230, 211, 0.65);
-  --text-muted: rgba(240, 230, 211, 0.35);
+  /* Primary — Emerald healing light */
+  --emerald:             #4edea3;
+  --emerald-dim:         #10b981;
+  --emerald-glow:        rgba(78, 222, 163, 0.15);
 
-  --font-arabic: 'Amiri', 'Traditional Arabic', serif;
-  --font-ui: 'Cairo', sans-serif;
+  /* Secondary — Gold of divine protection */
+  --gold:                #ffb95f;
+  --gold-dim:            #ee9800;
+  --gold-glow:           rgba(255, 185, 95, 0.15);
 
-  --radius-card: 20px;
-  --radius-btn: 50px;
-  --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.2);
+  /* Text */
+  --text-primary:        #dde2f5;   /* on-surface */
+  --text-secondary:      #bbcabf;   /* on-surface-variant */
+  --text-muted:          rgba(187, 202, 191, 0.45);
 
-  --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-fast: 0.2s ease;
+  /* Fonts — Stitch Noor & Sakina spec */
+  --font-arabic:         'Amiri', 'Noto Serif', 'Traditional Arabic', serif;
+  --font-heading:        'Noto Serif', 'Amiri', serif;
+  --font-ui:             'Manrope', 'Cairo', sans-serif;
 
-  --player-height: 90px;
-  --nav-width: 60px;
+  --radius-card:         16px;
+  --radius-btn:          9999px;
+  --shadow-card:         0 8px 60px rgba(0, 0, 0, 0.45);
+  --shadow-glow:         0 0 50px rgba(78, 222, 163, 0.1);
+
+  --transition:          0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast:     0.2s ease;
+
+  --player-height:       90px;
+  --nav-width:           60px;
 }
 
 /* ── Reset ── */
@@ -65,6 +73,10 @@ body {
   width: 100vw;
   height: 100vh;
   position: relative;
+  /* Subtle starfield feel */
+  background-image:
+    radial-gradient(ellipse at 10% 20%, rgba(78,222,163,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 90% 80%, rgba(255,185,95,0.04) 0%, transparent 60%);
 }
 
 /* ── Scrollable Container ── */
@@ -154,13 +166,14 @@ body {
 /* ── Card ── */
 .verse-card {
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border); /* ghost border — felt, not seen */
   border-radius: var(--radius-card);
   padding: 48px 56px;
   max-width: 860px;
   width: 100%;
   position: relative;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   box-shadow: var(--shadow-card);
   transition: border-color var(--transition), box-shadow var(--transition);
 }
@@ -175,27 +188,28 @@ body {
   content: '';
   position: absolute;
   top: 0;
-  right: 24px;
-  left: 24px;
-  height: 2px;
+  right: 20px;
+  left: 20px;
+  height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent, var(--emerald)), transparent);
-  border-radius: 2px;
-  opacity: 0.7;
+  border-radius: 1px;
+  opacity: 0.5;
 }
 
 /* ── Section Header ── */
 .section-header {
   text-align: center;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  /* No divider lines — extra whitespace instead (Stitch guideline) */
 }
 
 .section-icon {
   font-size: 2.4rem;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   display: block;
   animation: pulse-icon 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px currentColor);
 }
 
 @keyframes pulse-icon {
@@ -204,7 +218,7 @@ body {
 }
 
 .section-title {
-  font-family: var(--font-arabic);
+  font-family: var(--font-heading);
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   font-weight: 700;
   color: var(--text-primary);
@@ -214,27 +228,29 @@ body {
 
 .section-subtitle {
   font-family: var(--font-ui);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
-  font-weight: 300;
-  letter-spacing: 0.05em;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
 }
 
 .repeat-badge {
   display: inline-block;
-  margin-top: 10px;
-  padding: 4px 14px;
-  background: var(--gold-glow);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  border-radius: 20px;
+  margin-top: 12px;
+  padding: 5px 16px;
+  background: var(--gold-dim);
+  border-radius: 9999px;
   font-family: var(--font-arabic);
-  font-size: 0.9rem;
-  color: var(--gold);
+  font-size: 0.85rem;
+  color: #472a00;
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(255, 185, 95, 0.3);
 }
 
 /* ── Verse Group ── */
 .verse-group {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .verse-group:last-child {
@@ -243,14 +259,15 @@ body {
 
 .group-label {
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-muted);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 14px;
-  padding-right: 12px;
+  margin-bottom: 16px;
+  padding-right: 10px;
   border-right: 2px solid var(--accent, var(--emerald));
+  opacity: 0.8;
 }
 
 /* ── Arabic Text ── */
@@ -338,7 +355,7 @@ body {
   color: var(--text-primary);
 }
 
-/* ── Side Navigation Dots ── */
+/* ── Side Navigation Dots — Glowing Status Indicators (Stitch) ── */
 #side-nav {
   position: fixed;
   left: 0;
@@ -347,7 +364,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   padding: 20px 18px;
   z-index: 100;
 }
@@ -365,17 +382,17 @@ body {
 .nav-dot::before {
   content: attr(data-label);
   position: absolute;
-  right: calc(100% + 12px);
+  right: calc(100% + 14px);
   top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
   font-family: var(--font-arabic);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-secondary);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition-fast);
-  background: var(--bg-secondary);
+  background: var(--surface-container);
   padding: 4px 10px;
   border-radius: 6px;
   border: 1px solid var(--border);
@@ -385,10 +402,17 @@ body {
   opacity: 1;
 }
 
+/* Glowing pulse animation (Stitch Noor & Sakina spec) */
 .nav-dot.active {
   background: var(--emerald);
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
-  transform: scale(1.4);
+  box-shadow: 0 0 0 0 rgba(78, 222, 163, 0.4);
+  animation: dot-pulse 2s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(78, 222, 163, 0.4); transform: scale(1.4); }
+  70%  { box-shadow: 0 0 0 8px rgba(78, 222, 163, 0); transform: scale(1.4); }
+  100% { box-shadow: 0 0 0 0 rgba(78, 222, 163, 0); transform: scale(1.4); }
 }
 
 .nav-dot:hover:not(.active) {
@@ -441,16 +465,17 @@ body {
   cursor: not-allowed;
 }
 
-/* ── Audio Player ── */
+/* ── Audio Player — Glassmorphic dock (Stitch spec) ── */
 #audio-player {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: var(--player-height);
-  background: rgba(7, 13, 26, 0.95);
+  background: rgba(13, 19, 32, 0.75);
   border-top: 1px solid var(--border);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   display: flex;
   align-items: center;
   gap: 20px;
@@ -510,20 +535,20 @@ body {
   border-color: var(--text-secondary);
 }
 
+/* Play button — emerald gradient (Stitch spec) */
 .ctrl-btn.play-btn {
   width: 48px;
   height: 48px;
-  background: var(--emerald);
-  border-color: var(--emerald);
-  color: #000;
+  background: linear-gradient(135deg, var(--emerald), var(--emerald-dim));
+  border: none;
+  color: #002113;
   font-size: 1.1rem;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 20px rgba(78, 222, 163, 0.35), 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .ctrl-btn.play-btn:hover {
-  background: var(--emerald-dim);
-  transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+  transform: scale(1.07);
+  box-shadow: 0 0 30px rgba(78, 222, 163, 0.55), 0 6px 16px rgba(0,0,0,0.4);
 }
 
 .ctrl-btn.play-btn.loading {
@@ -552,12 +577,14 @@ body {
   overflow: visible;
 }
 
+/* Progress fill — emerald with outer glow (Stitch spec) */
 .progress-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--emerald), var(--gold));
   border-radius: 4px;
   transition: width 0.1s linear;
   position: relative;
+  box-shadow: 0 0 8px rgba(78, 222, 163, 0.5);
 }
 
 .progress-bar-fill::after {
