@@ -566,6 +566,25 @@ async function initApp() {
   const cachedSection0 = SectionManager.getAyahs(0);
   AudioPlayer.loadSection(cachedSection0, firstSection.titleAr, false);
 
+  // Show Start Button
+  const loaderText = document.getElementById('loader-text');
+  const btnStart = document.getElementById('btn-start-app');
+  
+  if (loaderText) loaderText.textContent = 'جاهز للتلاوة';
+  if (btnStart) {
+    btnStart.classList.remove('hidden');
+    btnStart.addEventListener('click', () => {
+      // Hide overlay
+      overlay.classList.add('hidden');
+      SectionManager.init();
+      
+      // Auto-play the first verse immediately
+      setTimeout(() => {
+        AudioPlayer.togglePlay();
+      }, 300);
+    });
+  }
+
   // Auto-advance audio to next section
   AudioPlayer.setOnEnd(() => {
     const next = SectionManager.getCurrent() + 1;
@@ -573,18 +592,6 @@ async function initApp() {
       SectionManager.goTo(next, true);
     }
   });
-
-  // Hide overlay
-  setTimeout(() => {
-    overlay.classList.add('hidden');
-    SectionManager.init();
-    
-    // Auto-play the first verse. 
-    // Browser might block this if the user hasn't interacted with the document yet.
-    setTimeout(() => {
-      AudioPlayer.togglePlay();
-    }, 300);
-  }, 400);
 }
 
 // ── Start ──
