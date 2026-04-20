@@ -532,65 +532,51 @@ function toArabicNum(n) {
   return n.toString().replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
 }
 
-function setLoaderProgress(pct) {
-  const fill = document.getElementById('loader-bar-fill');
-  if (fill) fill.style.width = `${pct}%`;
-}
-
 async function initApp() {
-  const overlay = document.getElementById('loading-overlay');
+  const overlay = document.getElementById('entry-overlay');
   const sectionEls = document.querySelectorAll('.section[data-section-idx]');
 
-  setLoaderProgress(10);
-
-  // Pre-fetch all section data
+  // Pre-fetch and build all section data in background
+  const initPromises = [];
   for (let i = 0; i < SECTIONS.length; i++) {
     const sectionEl = document.querySelector(`[data-section-idx="${i}"]`);
     if (!sectionEl) continue;
 
     const sectionData = SECTIONS[i];
-
-    // Set accent color
     sectionEl.style.setProperty('--accent', sectionData.color);
 
-    const ayahs = await buildSection(sectionEl, sectionData);
-    SectionManager.cacheAyahs(i, ayahs);
-
-    setLoaderProgress(10 + ((i + 1) / SECTIONS.length) * 80);
+    initPromises.push(buildSection(sectionEl, sectionData).then(ayahs => {
+      SectionManager.cacheAyahs(i, ayahs);
+    }));
   }
 
-  setLoaderProgress(100);
+  // Wait for at least the first section to be ready before allowing entry (optional, but safer)
+  // For now, we'll just wait for everything since it's fast
+  await Promise.all(initPromises);
 
-  // Load first section audio from cache (already fetched in buildSection loop)
+  // Ready first section audio
   const firstSection = SECTIONS[0];
   const cachedSection0 = SectionManager.getAyahs(0);
   AudioPlayer.loadSection(cachedSection0, firstSection.titleAr, false);
 
-  // Show Start Button
-  const loaderText = document.getElementById('loader-text');
+  // Setup Start Button logic
   const btnStart = document.getElementById('btn-start-app');
-  
-  if (loaderText) loaderText.textContent = 'جاهز للتلاوة';
   if (btnStart) {
-    btnStart.classList.remove('hidden');
     btnStart.addEventListener('click', () => {
-      // Hide overlay
       overlay.classList.add('hidden');
       SectionManager.init();
       
       // Auto-play the first verse immediately
       setTimeout(() => {
         AudioPlayer.togglePlay();
-      }, 300);
+      }, 400);
     });
   }
 
-  // Auto-advance audio to next section
+  // Auto-advance setup
   AudioPlayer.setOnEnd(() => {
     const next = SectionManager.getCurrent() + 1;
-    if (next < SECTIONS.length) {
-      SectionManager.goTo(next, true);
-    }
+    if (next < SECTIONS.length) SectionManager.goTo(next, true);
   });
 }
 

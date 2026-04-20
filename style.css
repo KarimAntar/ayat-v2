@@ -698,8 +698,8 @@ body {
   box-shadow: 0 0 10px var(--emerald);
 }
 
-/* ── Loading Overlay ── */
-#loading-overlay {
+/* ── Entry Overlay (Splash Screen) ── */
+#entry-overlay {
   position: fixed;
   inset: 0;
   background: var(--bg-primary);
@@ -708,73 +708,66 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+  background-image: 
+    radial-gradient(circle at center, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
 }
 
-#loading-overlay.hidden {
+#entry-overlay.hidden {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
 
+.entry-content {
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+}
+
 .loader-symbol {
-  font-size: 3rem;
-  margin-bottom: 20px;
-  animation: spin 3s linear infinite;
+  font-size: 4rem;
+  margin-bottom: 24px;
+  color: var(--gold);
+  animation: pulse-gold 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(255, 185, 95, 0.3));
 }
 
-.loader-text {
+.entry-title {
   font-family: var(--font-arabic);
-  font-size: 1.4rem;
-  color: var(--text-secondary);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--text-primary);
+  margin-bottom: 40px;
+  text-shadow: 0 0 30px rgba(221, 226, 245, 0.2);
 }
 
-.loader-bar {
-  width: 200px;
-  height: 2px;
-  background: var(--border);
-  border-radius: 2px;
-  margin-top: 20px;
-  overflow: hidden;
-}
-
-.loader-bar-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--emerald), var(--gold));
-  border-radius: 2px;
-  transition: width 0.5s ease;
+@keyframes pulse-gold {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
 }
 
 /* ── Start Button ── */
 .btn-start-app {
-  margin-top: 30px;
-  padding: 14px 48px;
+  padding: 16px 64px;
   background: var(--gold);
   color: #1a1a1a;
   border: none;
   border-radius: 9999px;
   font-family: var(--font-arabic);
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   font-weight: 700;
   cursor: pointer;
   transition: all var(--transition);
-  box-shadow: 0 0 20px rgba(255, 185, 95, 0.4);
-  animation: slide-up 0.5s ease backwards;
+  box-shadow: 0 0 25px rgba(255, 185, 95, 0.4);
 }
 
 .btn-start-app:hover {
   background: #ffd08a;
-  transform: scale(1.05) translateY(-2px);
-  box-shadow: 0 0 30px rgba(255, 185, 95, 0.6);
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(255, 185, 95, 0.6);
 }
 
-.btn-start-app.hidden {
-  display: none;
-}
-
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(20px); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
