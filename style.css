@@ -311,7 +311,6 @@ body {
   color: var(--text-primary);
   letter-spacing: 0.02em;
   word-spacing: 0.15em;
-  animation: text-shimmer 3s ease-in-out infinite;
   position: relative;
 }
 
