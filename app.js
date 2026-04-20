@@ -294,6 +294,9 @@ const AudioPlayer = (() => {
     togglePlay,
     setOnEnd,
     showFetching,
+    playIndex: (i) => {
+      if (i >= 0 && i < queue.length) playIndex(i);
+    },
     playNext: () => {
       currentIndex++;
       if (currentIndex < queue.length) playIndex(currentIndex);
@@ -473,28 +476,32 @@ async function buildSection(sectionEl, sectionData) {
     groupEl.appendChild(textEl);
     contentEl.appendChild(groupEl);
 
-    try {
-      const ayahs = await QuranAPI.fetchAyahs(group.surah, group.start, group.end);
-      allAyahs.push(...ayahs);
+    const startIdx = allAyahs.length;
+    const ayahs = await QuranAPI.fetchAyahs(group.surah, group.start, group.end);
+    allAyahs.push(...ayahs);
 
-      // Build text with ayah markers
-      textEl.innerHTML = ayahs.map(a =>
-        `${a.text} <span class="ayah-num">${toArabicNum(a.numberInSurah)}</span>`
-      ).join(' ');
-      textEl.classList.remove('loading');
-    } catch (err) {
-      // Use fallback texts
-      const lines = [];
-      for (let i = group.start; i <= group.end; i++) {
-        const key = `${group.surah}:${i}`;
-        if (FALLBACK_TEXTS[key]) {
-          lines.push(`${FALLBACK_TEXTS[key]} <span class="ayah-num">${toArabicNum(i)}</span>`);
-        }
-      }
-      textEl.innerHTML = lines.join(' ') || '...';
-      textEl.classList.remove('loading');
-    }
+    // Build text with ayah markers
+    textEl.innerHTML = ayahs.map((a, i) =>
+      `<span class="ayah" data-idx="${startIdx + i}" title="انقر للاستماع للآية">${a.text} <span class="ayah-num">${toArabicNum(a.numberInSurah)}</span></span>`
+    ).join(' ');
+    textEl.classList.remove('loading');
   }
+
+  // Click listener for verses
+  contentEl.addEventListener('click', async (e) => {
+    const ayahSpan = e.target.closest('.ayah');
+    if (!ayahSpan) return;
+    
+    const idx = parseInt(ayahSpan.getAttribute('data-idx'), 10);
+    const sectionIdx = parseInt(sectionEl.getAttribute('data-section-idx'), 10);
+    
+    if (SectionManager.getCurrent() !== sectionIdx) {
+      await SectionManager.goTo(sectionIdx);
+      setTimeout(() => AudioPlayer.playIndex(idx), 300);
+    } else {
+      AudioPlayer.playIndex(idx);
+    }
+  });
 
   return allAyahs;
 }
