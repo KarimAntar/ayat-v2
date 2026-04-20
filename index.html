@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#070d1a" />
+  <title>آيات وأذكار الرقية والتحصين</title>
+  <meta name="description" content="تطبيق إسلامي احترافي يعرض آيات وأذكار الرقية والتحصين مع تلاوة صوتية للشيخ مشاري العفاسي" />
+  <meta property="og:title" content="آيات وأذكار الرقية والتحصين" />
+  <meta property="og:description" content="تطبيق إسلامي لعرض آيات الرقية والتحصين" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ══════════════ LOADING OVERLAY ══════════════ -->
+  <div id="loading-overlay">
+    <div class="loader-symbol">☽</div>
+    <div class="loader-text">جاري تحميل الآيات...</div>
+    <div class="loader-bar">
+      <div class="loader-bar-fill" id="loader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════ TOP PROGRESS LINE ══════════════ -->
+  <div id="progress-line"></div>
+
+  <!-- ══════════════ SIDE DOT NAVIGATION ══════════════ -->
+  <nav id="side-nav" aria-label="التنقل بين الأقسام">
+    <div class="nav-dot active" data-label="المعوذتان" tabindex="0" role="button" aria-label="المعوذتان"></div>
+    <div class="nav-dot" data-label="الفاتحة" tabindex="0" role="button" aria-label="سورة الفاتحة"></div>
+    <div class="nav-dot" data-label="آية الكرسي" tabindex="0" role="button" aria-label="آية الكرسي"></div>
+    <div class="nav-dot" data-label="آخر البقرة" tabindex="0" role="button" aria-label="آخر آيتين من البقرة"></div>
+    <div class="nav-dot" data-label="آيات الحسد" tabindex="0" role="button" aria-label="آيات الحسد"></div>
+    <div class="nav-dot" data-label="ملاحظات" tabindex="0" role="button" aria-label="ملاحظات ختامية"></div>
+  </nav>
+
+  <!-- ══════════════ SCROLL CONTAINER ══════════════ -->
+  <main id="scroll-container" role="main">
+
+    <!-- ── SECTION 1: المعوذتان ── -->
+    <section class="section" data-section-idx="0" aria-label="المعوذتان">
+      <div class="section-bg">
+        <div class="orb orb-1" style="background:#10b981;"></div>
+        <div class="orb orb-2" style="background:#f59e0b;"></div>
+      </div>
+      <div class="section-pattern"></div>
+      <article class="verse-card" style="--accent:#10b981;">
+        <header class="section-header">
+          <span class="section-icon">🌙</span>
+          <h1 class="section-title">المعوذتان</h1>
+          <p class="section-subtitle">سورة الفلق + سورة الناس</p>
+          <span class="repeat-badge">(تُقرأ ٣ مرات)</span>
+        </header>
+        <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <div class="verse-content" id="content-0"></div>
+      </article>
+    </section>
+
+    <!-- ── SECTION 2: الفاتحة ── -->
+    <section class="section" data-section-idx="1" aria-label="سورة الفاتحة">
+      <div class="section-bg">
+        <div class="orb orb-1" style="background:#f59e0b;"></div>
+        <div class="orb orb-2" style="background:#10b981;"></div>
+      </div>
+      <div class="section-pattern"></div>
+      <article class="verse-card" style="--accent:#f59e0b;">
+        <header class="section-header">
+          <span class="section-icon">✨</span>
+          <h2 class="section-title">سورة الفاتحة</h2>
+          <p class="section-subtitle">أم الكتاب</p>
+          <span class="repeat-badge">(تُقرأ ٧ مرات)</span>
+        </header>
+        <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <div class="verse-content" id="content-1"></div>
+      </article>
+    </section>
+
+    <!-- ── SECTION 3: آية الكرسي ── -->
+    <section class="section" data-section-idx="2" aria-label="آية الكرسي">
+      <div class="section-bg">
+        <div class="orb orb-1" style="background:#6366f1;"></div>
+        <div class="orb orb-2" style="background:#10b981;"></div>
+      </div>
+      <div class="section-pattern"></div>
+      <article class="verse-card" style="--accent:#6366f1;">
+        <header class="section-header">
+          <span class="section-icon">🕌</span>
+          <h2 class="section-title">آية الكرسي</h2>
+          <p class="section-subtitle">البقرة : ٢٥٥</p>
+        </header>
+        <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <div class="verse-content" id="content-2"></div>
+      </article>
+    </section>
+
+    <!-- ── SECTION 4: آخر آيتين من البقرة ── -->
+    <section class="section" data-section-idx="3" aria-label="آخر آيتين من البقرة">
+      <div class="section-bg">
+        <div class="orb orb-1" style="background:#8b5cf6;"></div>
+        <div class="orb orb-2" style="background:#6366f1;"></div>
+      </div>
+      <div class="section-pattern"></div>
+      <article class="verse-card" style="--accent:#8b5cf6;">
+        <header class="section-header">
+          <span class="section-icon">📖</span>
+          <h2 class="section-title">آخر آيتين من سورة البقرة</h2>
+          <p class="section-subtitle">البقرة : ٢٨٥ – ٢٨٦</p>
+        </header>
+        <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <div class="verse-content" id="content-3"></div>
+      </article>
+    </section>
+
+    <!-- ── SECTION 5: آيات الحسد ── -->
+    <section class="section" data-section-idx="4" aria-label="آيات الحسد">
+      <div class="section-bg">
+        <div class="orb orb-1" style="background:#ec4899;"></div>
+        <div class="orb orb-2" style="background:#8b5cf6;"></div>
+      </div>
+      <div class="section-pattern"></div>
+      <article class="verse-card" style="--accent:#ec4899;">
+        <header class="section-header">
+          <span class="section-icon">🛡️</span>
+          <h2 class="section-title">آيات الحسد</h2>
+          <p class="section-subtitle">القلم : ٥١ – ٥٢</p>
+        </header>
+        <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <div class="verse-content" id="content-4"></div>
+      </article>
+    </section>
+
+    <!-- ── SECTION 6: ملاحظات ختامية ── -->
+    <section class="section notes-section" aria-label="ملاحظات ختامية">
+      <div class="section-bg">
+        <div class="orb orb-1" style="background:#f59e0b;"></div>
+        <div class="orb orb-2" style="background:#10b981;"></div>
+      </div>
+      <div class="section-pattern"></div>
+      <article class="verse-card notes-card" style="--accent:#f59e0b;">
+        <header class="section-header">
+          <span class="section-icon">📿</span>
+          <h2 class="section-title notes-title">ملاحظات ختامية</h2>
+        </header>
+
+        <div class="note-item">
+          <span class="note-icon">🌅</span>
+          <p class="note-text">يُفضل قراءتها يوميًا صباحًا ومساءً للتحصين.</p>
+        </div>
+        <div class="note-item">
+          <span class="note-icon">🤲</span>
+          <p class="note-text">يمكن النفث في اليدين والمسح على الجسم بعد القراءة.</p>
+        </div>
+        <div class="note-item">
+          <span class="note-icon">📖</span>
+          <p class="note-text">
+            قال الله تعالى:
+            <em style="display:block;margin-top:8px;font-style:normal;font-size:1.1em;color:var(--gold);">
+              "وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ"
+            </em>
+            <span style="font-size:0.85rem;color:var(--text-muted);">[الإسراء: ٨٢]</span>
+          </p>
+        </div>
+
+        <p style="text-align:center;margin-top:32px;font-size:0.8rem;color:var(--text-muted);font-family:var(--font-ui);">
+          &copy; 2026 Karim Development
+        </p>
+      </article>
+    </section>
+
+  </main><!-- end #scroll-container -->
+
+  <!-- ══════════════ NAVIGATION ARROWS ══════════════ -->
+  <div id="nav-arrows" aria-label="أسهم التنقل">
+    <button class="arrow-btn" id="btn-up" aria-label="القسم السابق" disabled>
+      <i class="fas fa-chevron-up"></i>
+    </button>
+    <button class="arrow-btn" id="btn-down" aria-label="القسم التالي">
+      <i class="fas fa-chevron-down"></i>
+    </button>
+  </div>
+
+  <!-- ══════════════ AUDIO PLAYER ══════════════ -->
+  <footer id="audio-player" aria-label="مشغل الصوت" role="complementary">
+
+    <!-- Section Info -->
+    <div class="player-info">
+      <div class="player-section-name" id="player-section-name">المعوذتان</div>
+      <div class="player-verse-indicator" id="verse-indicator">جاري التحميل...</div>
+    </div>
+
+    <!-- Controls -->
+    <div class="player-controls">
+      <button class="ctrl-btn" id="btn-prev-section" title="القسم السابق" aria-label="القسم السابق">
+        <i class="fas fa-backward-step"></i>
+      </button>
+      <button class="ctrl-btn play-btn" id="btn-play" title="تشغيل / إيقاف" aria-label="تشغيل أو إيقاف">
+        <i class="fas fa-play"></i>
+      </button>
+      <button class="ctrl-btn" id="btn-next-section" title="القسم التالي" aria-label="القسم التالي">
+        <i class="fas fa-forward-step"></i>
+      </button>
+    </div>
+
+    <!-- Progress -->
+    <div class="player-progress-wrap">
+      <div class="progress-bar-container" id="progress-bar" role="slider" aria-label="شريط التقدم" tabindex="0">
+        <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <div class="progress-times">
+        <span id="time-elapsed">0:00</span>
+        <div class="fetching-audio" id="fetching-status" style="display:none;">
+          <div class="fetching-dot"></div>
+          <div class="fetching-dot"></div>
+          <div class="fetching-dot"></div>
+          <span>جاري تحميل الصوت</span>
+        </div>
+        <span id="time-total">0:00</span>
+      </div>
+    </div>
+
+    <!-- Volume -->
+    <div class="player-volume">
+      <i class="fas fa-volume-up volume-icon" id="volume-icon" title="كتم / تفعيل الصوت"></i>
+      <input
+        type="range"
+        class="volume-slider"
+        id="volume-slider"
+        min="0" max="100" value="90"
+        aria-label="مستوى الصوت"
+        dir="ltr"
+      />
+    </div>
+
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

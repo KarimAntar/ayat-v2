@@ -1,0 +1,826 @@
+/* =====================================================
+   Ayat v2 — Design System
+   Islamic Ruqyah & Protection Verses
+   ===================================================== */
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --bg-primary: #070d1a;
+  --bg-secondary: #0d1626;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --bg-card-hover: rgba(255, 255, 255, 0.07);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(16, 185, 129, 0.3);
+
+  --emerald: #10b981;
+  --emerald-dim: #059669;
+  --emerald-glow: rgba(16, 185, 129, 0.15);
+  --gold: #f59e0b;
+  --gold-dim: #d97706;
+  --gold-glow: rgba(245, 158, 11, 0.15);
+  --indigo: #6366f1;
+  --purple: #8b5cf6;
+  --rose: #ec4899;
+
+  --text-primary: #f0e6d3;
+  --text-secondary: rgba(240, 230, 211, 0.65);
+  --text-muted: rgba(240, 230, 211, 0.35);
+
+  --font-arabic: 'Amiri', 'Traditional Arabic', serif;
+  --font-ui: 'Cairo', sans-serif;
+
+  --radius-card: 20px;
+  --radius-btn: 50px;
+  --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.2);
+
+  --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.2s ease;
+
+  --player-height: 90px;
+  --nav-width: 60px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-ui);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* ── Scrollable Container ── */
+#scroll-container {
+  width: 100%;
+  height: calc(100vh - var(--player-height));
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+  z-index: 1;
+}
+
+#scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Section ── */
+.section {
+  height: calc(100vh - var(--player-height));
+  width: 100%;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 40px 20px 40px calc(var(--nav-width) + 20px);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Animated Background ── */
+.section-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+  animation: float 8s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  right: -100px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 300px;
+  height: 300px;
+  bottom: -80px;
+  left: -80px;
+  animation-delay: -4s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* ── Geometric Pattern ── */
+.section-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(16,185,129,0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(245,158,11,0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ── Card ── */
+.verse-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 48px 56px;
+  max-width: 860px;
+  width: 100%;
+  position: relative;
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.section.active .verse-card {
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+
+/* Top accent line */
+.verse-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 24px;
+  left: 24px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent, var(--emerald)), transparent);
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+/* ── Section Header ── */
+.section-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-icon {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+  display: block;
+  animation: pulse-icon 3s ease-in-out infinite;
+}
+
+@keyframes pulse-icon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.section-title {
+  font-family: var(--font-arabic);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.section-subtitle {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+.repeat-badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 14px;
+  background: var(--gold-glow);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 20px;
+  font-family: var(--font-arabic);
+  font-size: 0.9rem;
+  color: var(--gold);
+}
+
+/* ── Verse Group ── */
+.verse-group {
+  margin-bottom: 24px;
+}
+
+.verse-group:last-child {
+  margin-bottom: 0;
+}
+
+.group-label {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  padding-right: 12px;
+  border-right: 2px solid var(--accent, var(--emerald));
+}
+
+/* ── Arabic Text ── */
+.arabic-text {
+  font-family: var(--font-arabic);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  line-height: 2.2;
+  text-align: justify;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  word-spacing: 0.15em;
+  animation: text-shimmer 3s ease-in-out infinite;
+  position: relative;
+}
+
+.arabic-text.loading {
+  opacity: 0.4;
+}
+
+.arabic-text.loading::after {
+  content: 'جاري التحميل...';
+  font-size: 1rem;
+  color: var(--text-muted);
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ── Notes Section ── */
+.notes-section {
+  flex-direction: column;
+  gap: 0;
+}
+
+.notes-card {
+  max-width: 860px;
+  width: 100%;
+}
+
+.notes-title {
+  font-family: var(--font-arabic);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.note-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: rgba(245, 158, 11, 0.05);
+  border: 1px solid rgba(245, 158, 11, 0.12);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  transition: background var(--transition-fast);
+}
+
+.note-item:hover {
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.note-item:last-child {
+  margin-bottom: 0;
+}
+
+.note-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.note-text {
+  font-family: var(--font-arabic);
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+/* ── Side Navigation Dots ── */
+#side-nav {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 18px;
+  z-index: 100;
+}
+
+.nav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.nav-dot::before {
+  content: attr(data-label);
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-family: var(--font-arabic);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+  background: var(--bg-secondary);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.nav-dot:hover::before {
+  opacity: 1;
+}
+
+.nav-dot.active {
+  background: var(--emerald);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+  transform: scale(1.4);
+}
+
+.nav-dot:hover:not(.active) {
+  background: var(--text-secondary);
+  transform: scale(1.2);
+}
+
+/* ── Arrow Navigation ── */
+#nav-arrows {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(var(--player-height) + 20px);
+  display: flex;
+  gap: 12px;
+  z-index: 100;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+
+#nav-arrows:hover {
+  opacity: 1;
+}
+
+.arrow-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: all var(--transition-fast);
+}
+
+.arrow-btn:hover:not(:disabled) {
+  border-color: var(--emerald);
+  color: var(--emerald);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
+  transform: scale(1.1);
+}
+
+.arrow-btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+/* ── Audio Player ── */
+#audio-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--player-height);
+  background: rgba(7, 13, 26, 0.95);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 24px;
+  z-index: 200;
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  max-width: 200px;
+}
+
+.player-section-name {
+  font-family: var(--font-arabic);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-verse-indicator {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+  direction: ltr;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.ctrl-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.ctrl-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+.ctrl-btn.play-btn {
+  width: 48px;
+  height: 48px;
+  background: var(--emerald);
+  border-color: var(--emerald);
+  color: #000;
+  font-size: 1.1rem;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.ctrl-btn.play-btn:hover {
+  background: var(--emerald-dim);
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+}
+
+.ctrl-btn.play-btn.loading {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.player-progress-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.progress-bar-container {
+  position: relative;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--emerald), var(--gold));
+  border-radius: 4px;
+  transition: width 0.1s linear;
+  position: relative;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.progress-bar-container:hover .progress-bar-fill::after {
+  opacity: 1;
+}
+
+.progress-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  direction: ltr;
+}
+
+.player-volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.volume-icon {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.volume-slider {
+  -webkit-appearance: none;
+  width: 80px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--emerald);
+  cursor: pointer;
+}
+
+/* ── Section Progress Bar (top) ── */
+#progress-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--emerald), var(--gold));
+  transition: width 0.3s ease;
+  z-index: 300;
+  box-shadow: 0 0 10px var(--emerald);
+}
+
+/* ── Loading Overlay ── */
+#loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#loading-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-symbol {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  animation: spin 3s linear infinite;
+}
+
+.loader-text {
+  font-family: var(--font-arabic);
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+}
+
+.loader-bar {
+  width: 200px;
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.loader-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--emerald), var(--gold));
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  :root {
+    --player-height: 80px;
+    --nav-width: 36px;
+  }
+
+  .verse-card {
+    padding: 28px 24px;
+    border-radius: 16px;
+  }
+
+  .section {
+    padding: 20px 12px 20px calc(var(--nav-width) + 12px);
+  }
+
+  .arabic-text {
+    font-size: 1.2rem;
+    line-height: 2;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .player-volume {
+    display: none;
+  }
+
+  .player-info {
+    min-width: 100px;
+    max-width: 120px;
+  }
+
+  #nav-arrows {
+    gap: 8px;
+  }
+
+  .arrow-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .verse-card {
+    padding: 20px 16px;
+  }
+
+  .section-header {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+  }
+
+  .arabic-text {
+    font-size: 1.1rem;
+    line-height: 1.9;
+  }
+
+  .ctrl-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+
+  .ctrl-btn.play-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ── Scrollbar for mobile fallback ── */
+@media (min-width: 1200px) {
+  .verse-card {
+    padding: 56px 72px;
+  }
+}
+
+/* ── Bismillah decoration ── */
+.bismillah {
+  text-align: center;
+  font-family: var(--font-arabic);
+  font-size: 1.4rem;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 20px;
+  letter-spacing: 0.05em;
+}
+
+/* ── Ayah number badge ── */
+.ayah-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin: 0 4px;
+  vertical-align: middle;
+  font-family: var(--font-ui);
+}
+
+/* ── Audio fetching indicator ── */
+.fetching-audio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.fetching-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--emerald);
+  animation: bounce-dot 1.4s ease-in-out infinite;
+}
+.fetching-dot:nth-child(2) { animation-delay: 0.2s; }
+.fetching-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce-dot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Section transition states ── */
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section.entering .verse-card {
+  animation: slide-in-up 0.5s ease forwards;
+}
