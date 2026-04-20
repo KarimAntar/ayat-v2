@@ -282,8 +282,8 @@ const AudioPlayer = (() => {
   });
 
   // Volume
-  audio.volume = 0.9;
-  elVolume.value = 90;
+  audio.volume = 1.0;
+  elVolume.value = 100;
   elVolume.addEventListener('input', () => {
     audio.volume = elVolume.value / 100;
     elVolumeIcon.className = audio.volume === 0 ? 'fas fa-volume-mute volume-icon' : 'fas fa-volume-up volume-icon';
